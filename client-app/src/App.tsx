@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import axios from "axios";
+import {Button, Header, List} from "semantic-ui-react";
 
 interface Activity {
   id: string;
@@ -29,7 +30,7 @@ function App() {
   }
 
   return (
-    <div className="App">
+/*    <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <ul>
@@ -40,7 +41,16 @@ function App() {
           }
         </ul>
       </header>
-    </div>
+    </div>*/
+          <Header as='h2' icon='user' content='Reactivities'>
+          <List>
+            {
+              activities.map((act: Activity) => (
+                  <List.Item onClick={() => removeActivity(act.id)} key={act.id}>{act.title}</List.Item>
+              ))
+            }
+          </List>
+          </Header>
   );
 }
 
