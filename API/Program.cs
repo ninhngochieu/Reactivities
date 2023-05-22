@@ -25,6 +25,13 @@ namespace API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddCors(opt =>
+            {
+                opt.AddPolicy(nameof(API), policy =>
+                {
+                    policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+                });
+            });
 
             var app = builder.Build();
 
@@ -37,14 +44,16 @@ namespace API
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseCors(nameof(API));
 
+            app.UseAuthorization();
 
             app.MapControllers();
 
             await MigrateDBAsync(app);
 
             app.Run();
+
         }
 
         static async Task MigrateDBAsync(global::Microsoft.AspNetCore.Builder.WebApplication app)
