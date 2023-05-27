@@ -4,6 +4,7 @@ import axios from "axios";
 import {Container, List} from "semantic-ui-react";
 import {Activity} from "../../models/Activity";
 import NarBar from "./NarBar";
+import ActivitityDashBoard from "../../features/activities/dashboard/ActivitityDashBoard";
 
 
 function App() {
@@ -25,13 +26,7 @@ function App() {
       <>
           <NarBar/>
           <Container style={{marginTop: '7em'}}>
-            <List>
-              {
-                activities.map((act: Activity) => (
-                    <List.Item onClick={() => removeActivity(act.id)} key={act.id}>{act.title}</List.Item>
-                ))
-              }
-            </List>
+                <ActivitityDashBoard activities={activities}/>
           </Container>
       </>
   );
