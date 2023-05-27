@@ -1,7 +1,11 @@
+using API.Extensions;
+using Application.Activities;
+using Application.Core;
 using Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using System.Reflection;
 
 namespace API
 {
@@ -10,28 +14,10 @@ namespace API
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            var connectionString = builder.Configuration.GetConnectionString("APIContextConnection") ??
-                throw new InvalidOperationException("Connection string 'APIContextConnection' not found.");
-
-            builder.Services.AddDbContext<APIContext>(options => options.UseSqlite(connectionString));
-
-            builder.Services
-                .AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<APIContext>();
-
+ 
             // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            builder.Services.AddCors(opt =>
-            {
-                opt.AddPolicy(nameof(API), policy =>
-                {
-                    policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
-                });
-            });
+            builder.Services.AddApplicationServices(builder.Configuration);
 
             var app = builder.Build();
 
@@ -42,6 +28,8 @@ namespace API
                 app.UseSwaggerUI();
             }
 
+            #if DEBUG
+            #endif
             app.UseHttpsRedirection();
 
             app.UseCors(nameof(API));
