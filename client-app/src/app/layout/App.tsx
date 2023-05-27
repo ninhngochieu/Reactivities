@@ -1,18 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import logo from './logo.svg';
+import React, {Fragment, useEffect, useState} from 'react';
 import './App.css';
 import axios from "axios";
-import {Button, Header, List} from "semantic-ui-react";
+import {Container, List} from "semantic-ui-react";
+import {Activity} from "../../models/Activity";
+import NarBar from "./NarBar";
 
-interface Activity {
-  id: string;
-  title: string;
-  date: string;
-  description: string;
-  category: string;
-  city: string;
-  venue: string;
-}
 
 function App() {
 
@@ -30,27 +22,18 @@ function App() {
   }
 
   return (
-/*    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <ul>
-          {
-            activities.map((act: Activity) => (
-                <li onClick={() => removeActivity(act.id)} key={act.id}>{act.title}</li>
-            ))
-          }
-        </ul>
-      </header>
-    </div>*/
-          <Header as='h2' icon='user' content='Reactivities'>
-          <List>
-            {
-              activities.map((act: Activity) => (
-                  <List.Item onClick={() => removeActivity(act.id)} key={act.id}>{act.title}</List.Item>
-              ))
-            }
-          </List>
-          </Header>
+      <>
+          <NarBar/>
+          <Container style={{marginTop: '7em'}}>
+            <List>
+              {
+                activities.map((act: Activity) => (
+                    <List.Item onClick={() => removeActivity(act.id)} key={act.id}>{act.title}</List.Item>
+                ))
+              }
+            </List>
+          </Container>
+      </>
   );
 }
 
